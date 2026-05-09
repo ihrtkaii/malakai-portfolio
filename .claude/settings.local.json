@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(npm *)",
+      "PowerShell(Get-ChildItem -Recurse -Path \"C:\\\\Users\\\\kaika\\\\malakai-portfolio\" -Exclude node_modules,.next | Select-Object FullName | Where-Object { $_.FullName -notmatch 'node_modules|\\\\.next' })",
+      "WebFetch(domain:localhost)",
+      "PowerShell($response = Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing -TimeoutSec 30; Write-Host \"Status: $\\($response.StatusCode\\)\"; Write-Host \"Title check:\"; $response.Content | Select-String -Pattern \"Malakai|error|Error\" | Select-Object -First 5)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing -TimeoutSec 20; Write-Host \"HTTP $\\($r.StatusCode\\)\"; $r.Content | Select-String -Pattern \"error|Error|failed|Failed|Warning\" | Select-Object -First 6)"
+    ]
+  }
+}
