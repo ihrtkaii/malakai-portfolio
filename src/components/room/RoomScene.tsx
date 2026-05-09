@@ -3,17 +3,21 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+import { useStore } from '@/lib/store'
 import Room from './Room'
 import Desk from './Desk'
 import Monitor from './Monitor'
+import MonitorHint from './MonitorHint'
 import Keyboard from './Keyboard'
 import DeskItems from './DeskItems'
 import Lighting from './Lighting'
 import Particles from './Particles'
 import PostFX from './PostFX'
-import ZoomTransition from '@/components/transition/ZoomTransition'
+import ZoomTransition, { ZoomFlash } from '@/components/transition/ZoomTransition'
 
 export default function RoomScene() {
+  const phase = useStore((s) => s.phase)
+
   return (
     <div className="fixed inset-0">
       <Canvas
@@ -27,6 +31,7 @@ export default function RoomScene() {
           <Room />
           <Desk />
           <Monitor />
+          {phase === 'room' && <MonitorHint />}
           <Keyboard />
           <DeskItems />
         </Suspense>
@@ -38,25 +43,30 @@ export default function RoomScene() {
         {/* PostFX last — composites over the full scene */}
         <PostFX />
 
-        {/* ZoomTransition lives inside Canvas so Phase 3 can use useFrame */}
+        {/* Camera lerp during the zoom phase. Inside Canvas for useFrame access. */}
         <ZoomTransition />
 
         {/*
           Orbit limits keep the camera near eye-level — no floor/ceiling dives.
-          minAzimuth/maxAzimuth restrict left-right to ±15° for a cinematic feel.
+          Disabled during 'zooming' so OrbitControls doesn't fight the lerp.
         */}
-        <OrbitControls
-          target={[0, 1.0, 0]}
-          enableZoom={false}
-          enablePan={false}
-          minPolarAngle={Math.PI / 2.4}
-          maxPolarAngle={Math.PI / 2}
-          minAzimuthAngle={-Math.PI / 12}
-          maxAzimuthAngle={Math.PI / 12}
-          enableDamping
-          dampingFactor={0.05}
-        />
+        {phase === 'room' && (
+          <OrbitControls
+            target={[0, 1.0, 0]}
+            enableZoom={false}
+            enablePan={false}
+            minPolarAngle={Math.PI / 2.4}
+            maxPolarAngle={Math.PI / 2}
+            minAzimuthAngle={-Math.PI / 12}
+            maxAzimuthAngle={Math.PI / 12}
+            enableDamping
+            dampingFactor={0.05}
+          />
+        )}
       </Canvas>
+
+      {/* CRT flash overlay — DOM, must live outside the Canvas */}
+      <ZoomFlash />
     </div>
   )
 }

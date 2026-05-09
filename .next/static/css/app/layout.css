@@ -606,6 +606,9 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+.pointer-events-none {
+  pointer-events: none;
+}
 .static {
   position: static;
 }
@@ -617,6 +620,9 @@ video {
 }
 .inset-0 {
   inset: 0px;
+}
+.z-50 {
+  z-index: 50;
 }
 .mb-10 {
   margin-bottom: 2.5rem;
@@ -751,6 +757,9 @@ video {
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 :root {
   --bg-base: #03060a;
@@ -799,6 +808,20 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* CRT flash — Phase 3 zoom transition overlay (0 → 0.7 → 0.2 → 0.95 → 0) */
+@keyframes crtFlash {
+  0%   { opacity: 0; }
+  25%  { opacity: 0.7; }
+  50%  { opacity: 0.2; }
+  75%  { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+.crt-flash {
+  animation-name: crtFlash;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 
 /* Screen reader only utility */
