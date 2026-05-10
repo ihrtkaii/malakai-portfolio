@@ -16,6 +16,37 @@
   --text-primary: #e8e8e8;
   --text-muted: #888;
   --text-dim: #555;
+
+  /* ── Frutiger Aero × XP Luna palette ───────────────────────────── */
+  /* Title-bar gradient stops — glossy aqua/blue */
+  --aero-title-1: #2d7df7;
+  --aero-title-2: #1c5fd6;
+  --aero-title-3: #0a48b8;
+  --aero-title-glare: rgba(255, 255, 255, 0.55);
+
+  /* Taskbar gradient — Luna-blue base, glossier highlights */
+  --aero-taskbar-1: #2867c8;
+  --aero-taskbar-2: #1248a0;
+  --aero-taskbar-3: #082d7a;
+  --aero-taskbar-highlight: rgba(255, 255, 255, 0.35);
+
+  /* Start button (XP-green, slightly glassy) */
+  --aero-start-1: #5db553;
+  --aero-start-2: #3aa030;
+  --aero-start-3: #237b1a;
+
+  /* Glassy window body */
+  --aero-window-bg: rgba(245, 250, 255, 0.92);
+  --aero-window-border: #6c95d0;
+  --aero-window-border-light: #b6cfee;
+
+  /* Wallpaper sky/hills (Bliss-inspired) */
+  --bliss-sky-top: #4aa6ec;
+  --bliss-sky-mid: #7fc4f0;
+  --bliss-sky-low: #c4e3f5;
+  --bliss-hill-top: #6abd45;
+  --bliss-hill-mid: #4f9c2e;
+  --bliss-hill-low: #2d6a18;
 }
 
 *,
@@ -76,4 +107,266 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* ── Phase 5: SOC OS desktop chrome ────────────────────────────────── */
+
+/* Bliss wallpaper — real photo */
+.aero-wallpaper {
+  background: url('/bliss.jpg') center center / cover no-repeat;
+}
+
+/* Title bar — glossy aqua/blue with top-half white glare */
+.aero-titlebar {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--aero-title-glare) 0%,
+      var(--aero-title-1) 18%,
+      var(--aero-title-2) 55%,
+      var(--aero-title-3) 100%
+    );
+  border-top: 1px solid var(--aero-window-border-light);
+  border-left: 1px solid var(--aero-window-border-light);
+  border-right: 1px solid var(--aero-window-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* Inactive title bar — desaturated */
+.aero-titlebar-inactive {
+  background: linear-gradient(to bottom, #c8d6e8 0%, #9bb1c8 55%, #7995b3 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Window frame — glassy white body */
+.aero-window {
+  background: var(--aero-window-bg);
+  border: 1px solid var(--aero-window-border);
+  border-top: none;
+  box-shadow:
+    0 8px 24px rgba(0, 30, 80, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+/* Glossy taskbar */
+.aero-taskbar {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--aero-taskbar-highlight) 0%,
+      var(--aero-taskbar-1) 14%,
+      var(--aero-taskbar-2) 60%,
+      var(--aero-taskbar-3) 100%
+    );
+  border-top: 1px solid #5e8de0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Glossy start button (XP-green) */
+.aero-start {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.55) 0%,
+      var(--aero-start-1) 22%,
+      var(--aero-start-2) 65%,
+      var(--aero-start-3) 100%
+    );
+  border: 1px solid #1f5e15;
+  border-radius: 0 12px 12px 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+.aero-start:hover {
+  filter: brightness(1.1);
+}
+.aero-start:active {
+  filter: brightness(0.92);
+}
+
+/* Glossy taskbar task button */
+.aero-task-btn {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.4) 0%,
+      #4a82d8 25%,
+      #2966bd 70%,
+      #16489c 100%
+    );
+  border: 1px solid #0a3a8a;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+.aero-task-btn.is-focused {
+  filter: brightness(0.85) saturate(1.1);
+}
+
+/* XP-style window control buttons (close/min/max) */
+.aero-ctrl-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Marlett', 'Segoe UI', sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  user-select: none;
+}
+.aero-ctrl-min,
+.aero-ctrl-max {
+  background: linear-gradient(to bottom, #6fa8ff 0%, #2d7df7 50%, #1148a8 100%);
+  border: 1px solid #0a48b8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.aero-ctrl-close {
+  background: linear-gradient(to bottom, #ff7a6a 0%, #d83a2a 50%, #9c1a10 100%);
+  border: 1px solid #6e0c08;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.aero-ctrl-btn:hover {
+  filter: brightness(1.15);
+}
+.aero-ctrl-btn:active {
+  filter: brightness(0.85);
+}
+
+/* Selected desktop icon: faint blue highlight */
+.icon-selected {
+  background: rgba(40, 100, 200, 0.35);
+  outline: 1px dotted rgba(255, 255, 255, 0.85);
+}
+
+/* SOC OS watermark — bottom-right */
+.aero-watermark {
+  position: absolute;
+  right: 18px;
+  bottom: 44px;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Window open animation: scale 0.95 → 1, opacity 0 → 1 over 200ms */
+@keyframes windowOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.aero-window-anim {
+  animation: windowOpen 200ms ease-out;
+}
+
+/* Login screen spinner */
+@keyframes loginSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── XP cursors (PortfolioOS scope only) ───────────────────────────
+   Apply to .os-cursor root. Inheritance covers most descendants; we
+   override clickables to use the pointer cur, and reset text inputs
+   to the system text caret so the user can still see they're typing. */
+.os-cursor {
+  cursor: url('/cursor.cur'), default;
+}
+.os-cursor *:not(input):not(textarea) {
+  cursor: inherit;
+}
+.os-cursor button,
+.os-cursor a,
+.os-cursor [role="button"],
+.os-cursor [data-clickable="true"] {
+  cursor: url('/cursor-pointer.cur'), pointer;
+}
+.os-cursor input[type="text"],
+.os-cursor input[type="password"],
+.os-cursor input[type="email"],
+.os-cursor textarea {
+  cursor: text;
+}
+
+/* ── BSOD shake ─────────────────────────────────────────────────── */
+@keyframes bsodShake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 1px); }
+  20% { transform: translate(3px, -1px); }
+  30% { transform: translate(-1px, 2px); }
+  40% { transform: translate(2px, 1px); }
+  50% { transform: translate(-3px, -2px); }
+  60% { transform: translate(1px, 2px); }
+  70% { transform: translate(-2px, -1px); }
+  80% { transform: translate(2px, -2px); }
+  90% { transform: translate(-1px, 1px); }
+}
+.bsod-shake {
+  animation: bsodShake 0.18s linear infinite;
+}
+
+/* ── Glow pulsing hire button ───────────────────────────────────── */
+@keyframes hireGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(0, 255, 136, 0.55), 0 0 24px rgba(0, 255, 136, 0.25); }
+  50% { box-shadow: 0 0 22px rgba(0, 255, 136, 0.95), 0 0 48px rgba(0, 255, 136, 0.55); }
+}
+.hire-glow {
+  animation: hireGlow 1.6s ease-in-out infinite;
+}
+
+/* ── CRT static fade ─────────────────────────────────────────────── */
+@keyframes crtStaticFade {
+  0% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.crt-static-fade {
+  animation: crtStaticFade 1.6s ease-in forwards;
+}
+
+/* CMD blinking caret */
+@keyframes caretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cmd-caret {
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+/* Skill bar chunked fill (XP-style) */
+.skill-bar-track {
+  background: #d6d6d6;
+  border: 1px solid #888;
+  height: 14px;
+  padding: 1px;
+  display: flex;
+  gap: 1px;
+}
+.skill-bar-chunk {
+  flex: 1;
+  background: linear-gradient(to bottom, #58d058 0%, #2c8a2c 100%);
+  border: 1px solid #1e6020;
+}
+.skill-bar-chunk.empty {
+  background: transparent;
+  border: 1px solid transparent;
 }

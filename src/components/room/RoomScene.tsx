@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useStore } from '@/lib/store'
@@ -18,12 +18,24 @@ import ZoomTransition, { ZoomFlash } from '@/components/transition/ZoomTransitio
 export default function RoomScene() {
   const phase = useStore((s) => s.phase)
 
+  // Pick initial camera based on the phase we're remounting into. Switch-out
+  // remounts RoomScene fresh — the camera should already be "inside" the
+  // screen when the user clicks Switch User, so the lerp visually pulls back.
+  // ZoomTransition's useEffect also re-snaps these the same frame, but the
+  // initial prop avoids a single-frame flash at room defaults.
+  const initialCamera = useMemo<{ position: [number, number, number]; fov: number }>(
+    () =>
+      phase === 'switching-out'
+        ? { position: [0, 1.4, 1.2], fov: 15 }
+        : { position: [0, 1.4, 3.5], fov: 45 },
+    [phase],
+  )
+
   return (
     <div className="fixed inset-0">
       <Canvas
         shadows
-        // Starting camera: eye-level above desk, looking slightly down at the workspace
-        camera={{ position: [0, 1.4, 3.5], fov: 45 }}
+        camera={initialCamera}
         dpr={[1, 2]}
         gl={{ antialias: true, toneMappingExposure: 1.2 }}
       >

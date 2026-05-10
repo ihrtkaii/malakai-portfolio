@@ -3,7 +3,7 @@
 
 import type { Howl as HowlType } from 'howler'
 
-type SoundName = 'boot' | 'click' | 'crt-on' | 'keypress' | 'rain'
+type SoundName = 'boot' | 'click' | 'crt-on' | 'keypress' | 'rain' | 'startup'
 
 interface SoundConfig {
   volume?: number
@@ -16,6 +16,7 @@ const config: Record<SoundName, SoundConfig> = {
   'crt-on': { volume: 0.7 },
   keypress: { volume: 0.3 },
   rain: { volume: 0.4, loop: true },
+  startup: { volume: 0.7 },
 }
 
 const cache = new Map<SoundName, HowlType>()
@@ -25,7 +26,6 @@ function load(name: SoundName): HowlType | null {
   if (cache.has(name)) return cache.get(name)!
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { Howl } = require('howler') as { Howl: typeof HowlType }
     const { volume = 0.7, loop = false } = config[name]
     const howl = new Howl({
