@@ -84,7 +84,7 @@ export default function PortfolioOS() {
         if (e.target === e.currentTarget) selectIcon(null)
       }}
     >
-      <div className="aero-watermark">SOC OS · build 2026.05</div>
+      <div className="aero-watermark">Horizon XP · build 2026.05</div>
 
       <Desktop />
 

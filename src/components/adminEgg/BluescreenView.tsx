@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react'
 import { playSound } from '@/lib/sounds'
 
 // Authentic-feeling XP BSOD: classic blue, white Lucida-Console-esque text,
-// continuous slight shake. Held for 2s by the orchestrator.
+// continuous slight shake. Held for 5s by the orchestrator.
 export default function BluescreenView() {
   // Stable per-mount fake addresses so the shake doesn't re-randomize them.
   const addrs = useMemo(
@@ -40,9 +40,20 @@ export default function BluescreenView() {
         overflow: 'hidden',
       }}
     >
+      <p
+        style={{
+          fontSize: '64px',
+          lineHeight: 1,
+          marginBottom: '0.6em',
+          fontFamily: '"Segoe UI Symbol", "Lucida Console", monospace',
+        }}
+        aria-hidden
+      >
+        :(
+      </p>
       <p>
-        A problem has been detected and SOC OS has been shut down to prevent
-        damage to your computer.
+        A problem has been detected and Horizon XP has been shut down to
+        prevent damage to your computer.
       </p>
       <p style={{ marginTop: '1em' }}>UNAUTHORIZED_ACCESS_DETECTED</p>
       <p style={{ marginTop: '1em' }}>
@@ -53,7 +64,7 @@ export default function BluescreenView() {
       <p style={{ marginTop: '1em' }}>
         Check that any new hardware or software is properly installed. If this
         is a new installation, ask your hardware or software manufacturer for
-        any SOC OS updates you might need.
+        any Horizon XP updates you might need.
       </p>
       <p style={{ marginTop: '1em' }}>
         If problems continue, disable or remove any newly installed hardware or

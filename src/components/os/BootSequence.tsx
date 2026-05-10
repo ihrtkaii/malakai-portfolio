@@ -62,7 +62,7 @@ export default function BootSequence() {
       <div className="flex flex-col items-center gap-6">
         {/* Brand wordmark — letter-spaced; pl compensates for trailing tracking gap */}
         <div className="text-text-primary text-6xl font-semibold tracking-[0.4em] pl-[0.4em] select-none">
-          SOC OS
+          Horizon XP
         </div>
 
         {/* Version line */}

@@ -1,9 +1,8 @@
 'use client'
 
-import { Suspense, lazy, useEffect } from 'react'
+import { Suspense, lazy, useEffect, useRef } from 'react'
 import { useStore } from '@/lib/store'
 import { playSound, stopSound } from '@/lib/sounds'
-import LoadingScreen from '@/components/ui/LoadingScreen'
 import RoomScene from '@/components/room/RoomScene'
 
 const LoginScreen = lazy(() => import('@/components/login/LoginScreen'))
@@ -25,26 +24,55 @@ const ROOM_PHASES = new Set([
   'switching-in',
 ])
 
-// Rain plays while the room is visible. Stops as soon as the camera dives
-// into the screen ('zooming-final') so the boot sequence lands in silence.
-const RAIN_PHASES = new Set(['room', 'zooming', 'login'])
+// Rain plays from the first room load through the zoom-in toward the
+// monitor. It cuts the moment the logon screen appears.
+const RAIN_PHASES = new Set(['room', 'zooming'])
 
 export default function Experience() {
   const phase = useStore((s) => s.phase)
 
+  // Stop rain when leaving the room/login phases. Starting it is handled by
+  // the one-shot interaction listener below — browser autoplay policy blocks
+  // a play() call before the user has touched the page.
   useEffect(() => {
-    if (RAIN_PHASES.has(phase)) {
-      playSound('rain')
-    } else {
+    if (!RAIN_PHASES.has(phase)) {
       stopSound('rain')
     }
   }, [phase])
 
-  return (
-    <div className="relative w-screen h-screen overflow-hidden">
-      {phase === 'loading' && <LoadingScreen />}
+  // Hold the latest phase in a ref so the one-shot interaction listener can
+  // read it without resubscribing each phase change.
+  const phaseRef = useRef(phase)
+  phaseRef.current = phase
 
-      {ROOM_PHASES.has(phase) && <RoomScene />}
+  // Browsers gate audio behind a user gesture. Wait for the first interaction
+  // anywhere on the page, then start rain if we're still in a phase that
+  // wants it. The `started` flag guards against pointerdown + keydown both
+  // firing before either listener detaches.
+  useEffect(() => {
+    let started = false
+    const start = () => {
+      if (started) return
+      started = true
+      if (RAIN_PHASES.has(phaseRef.current)) {
+        playSound('rain')
+      }
+    }
+    document.addEventListener('pointerdown', start, { once: true })
+    document.addEventListener('keydown', start, { once: true })
+    return () => {
+      document.removeEventListener('pointerdown', start)
+      document.removeEventListener('keydown', start)
+    }
+  }, [])
+
+  return (
+    <div className="relative w-screen h-screen overflow-hidden bg-black">
+      {ROOM_PHASES.has(phase) && (
+        <div className="room-fade-in absolute inset-0">
+          <RoomScene />
+        </div>
+      )}
 
       <Suspense fallback={null}>
         {phase === 'login' && <LoginScreen />}

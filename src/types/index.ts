@@ -10,7 +10,7 @@ export type Phase =
   | 'zooming' // room camera → medium (full monitor visible)
   | 'login' // welcome screen at medium camera distance
   | 'zooming-final' // medium → deep (camera dives into the screen)
-  | 'booting' // SOC OS boot sequence
+  | 'booting' // Horizon XP boot sequence
   | 'desktop' // main OS
   | 'admin-egg' // BSOD → reboot → secret terminal → secret about
   | 'switching-out' // desktop session paused, camera lerps deep → medium

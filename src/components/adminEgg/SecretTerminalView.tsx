@@ -24,6 +24,10 @@ export default function SecretTerminalView({ onDone }: Props) {
   const doneRef = useRef(false)
 
   useEffect(() => {
+    // Strict-mode dev runs the effect twice; the previous cleanup left
+    // doneRef.current = true, which would otherwise short-circuit the very
+    // first tick and freeze the countdown on its initial lines.
+    doneRef.current = false
     let count = COUNT_FROM
 
     const tick = () => {

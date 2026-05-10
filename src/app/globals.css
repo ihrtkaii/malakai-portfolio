@@ -109,7 +109,7 @@ body {
   border-width: 0;
 }
 
-/* ── Phase 5: SOC OS desktop chrome ────────────────────────────────── */
+/* ── Phase 5: Horizon XP desktop chrome ────────────────────────────── */
 
 /* Bliss wallpaper — real photo */
 .aero-wallpaper {
@@ -210,6 +210,16 @@ body {
   filter: brightness(0.85) saturate(1.1);
 }
 
+/* First-paint fade from black into the 3D room. Replaces the old
+   LoadingScreen flash so the experience opens cinematically. */
+.room-fade-in {
+  animation: room-fade-in 1s ease-out both;
+}
+@keyframes room-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Taskbar media-player widget marquee. Two copies of the track name slide
    left in lockstep so the line never visually "ends". */
 .aero-mp-marquee {
@@ -261,7 +271,7 @@ body {
   outline: 1px dotted rgba(255, 255, 255, 0.85);
 }
 
-/* SOC OS watermark — bottom-right */
+/* Horizon XP watermark — bottom-right */
 .aero-watermark {
   position: absolute;
   right: 18px;

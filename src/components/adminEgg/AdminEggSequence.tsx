@@ -6,7 +6,7 @@ import RebootFlash from './RebootFlash'
 import SecretTerminalView from './SecretTerminalView'
 import SecretAboutView from './SecretAboutView'
 
-const BSOD_HOLD_MS = 2000
+const BSOD_HOLD_MS = 5000
 const REBOOT_HOLD_MS = 600
 
 type Stage = 'bsod' | 'reboot' | 'terminal' | 'about'
