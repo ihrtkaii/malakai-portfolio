@@ -56,8 +56,17 @@ function nextVisibleFocus(
 }
 
 export const useStore = create<State>((set) => ({
-  phase: 'loading',
-  setPhase: (p) => set({ phase: p }),
+  phase: 'room',
+  // One-way gate: once the experience has moved past the initial zoom-in,
+  // refuse any attempt to send it back to 'room' or 'zooming'. Without this,
+  // a stale event/timer from the cold-boot path could rewind the phase
+  // machine and force the user to re-click the monitor before booting.
+  setPhase: (p) =>
+    set((s) => {
+      const pastZooming = s.phase !== 'room' && s.phase !== 'zooming'
+      if (pastZooming && (p === 'room' || p === 'zooming')) return {}
+      return { phase: p }
+    }),
 
   openWindows: [],
   focusedWindow: null,
