@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { playSound } from '@/lib/sounds'
 import TileAvatar from './TileAvatar'
 
 const TIMEOUT_SECONDS = 7
@@ -34,6 +35,7 @@ export default function AdminPasswordView({ onResolve, denied = false }: Props) 
         if (next <= 0 && !settledRef.current) {
           settledRef.current = true
           if (intervalRef.current != null) window.clearInterval(intervalRef.current)
+          playSound('error')
           // defer to avoid setState during a render cycle
           window.setTimeout(() => onResolve(false), 0)
           return 0
@@ -51,7 +53,9 @@ export default function AdminPasswordView({ onResolve, denied = false }: Props) 
     if (settledRef.current) return
     settledRef.current = true
     if (intervalRef.current != null) window.clearInterval(intervalRef.current)
-    onResolve(password === CORRECT_PASSWORD)
+    const correct = password === CORRECT_PASSWORD
+    if (!correct) playSound('error')
+    onResolve(correct)
   }
 
   return (

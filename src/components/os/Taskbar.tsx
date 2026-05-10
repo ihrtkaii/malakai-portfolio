@@ -5,6 +5,7 @@ import { useStore } from '@/lib/store'
 import { getWindowTitles } from './windowTitles'
 import { StartFlagIcon, WifiIcon, SpeakerIcon } from './Icons'
 import StartMenu from './StartMenu'
+import MediaPlayerWidget from './MediaPlayerWidget'
 
 function formatClock(d: Date): string {
   let hours = d.getHours()
@@ -96,6 +97,7 @@ export default function Taskbar() {
           textShadow: '0 1px 1px rgba(0,0,0,0.5)',
         }}
       >
+        <MediaPlayerWidget />
         <WifiIcon size={14} />
         <SpeakerIcon size={14} />
         <span className="tabular-nums" suppressHydrationWarning>

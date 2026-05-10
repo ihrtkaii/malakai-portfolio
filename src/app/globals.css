@@ -210,6 +210,17 @@ body {
   filter: brightness(0.85) saturate(1.1);
 }
 
+/* Taskbar media-player widget marquee. Two copies of the track name slide
+   left in lockstep so the line never visually "ends". */
+.aero-mp-marquee {
+  display: inline-flex;
+  animation: aero-mp-scroll 8s linear infinite;
+}
+@keyframes aero-mp-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 /* XP-style window control buttons (close/min/max) */
 .aero-ctrl-btn {
   width: 22px;

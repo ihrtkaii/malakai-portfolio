@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import { playSound } from '@/lib/sounds'
 
 // Authentic-feeling XP BSOD: classic blue, white Lucida-Console-esque text,
 // continuous slight shake. Held for 2s by the orchestrator.
@@ -20,6 +21,10 @@ export default function BluescreenView() {
   const driver = useMemo(() => {
     const drivers = ['ntoskrnl.exe', 'win32k.sys', 'kbdclass.sys', 'krnl-sec.sys']
     return drivers[Math.floor(Math.random() * drivers.length)]
+  }, [])
+
+  useEffect(() => {
+    playSound('error')
   }, [])
 
   return (

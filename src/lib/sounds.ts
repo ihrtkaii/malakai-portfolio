@@ -3,7 +3,15 @@
 
 import type { Howl as HowlType } from 'howler'
 
-type SoundName = 'boot' | 'click' | 'crt-on' | 'keypress' | 'rain' | 'startup'
+type SoundName =
+  | 'boot'
+  | 'click'
+  | 'crt-on'
+  | 'keypress'
+  | 'rain'
+  | 'startup'
+  | 'desktop-ambient'
+  | 'error'
 
 interface SoundConfig {
   volume?: number
@@ -15,8 +23,10 @@ const config: Record<SoundName, SoundConfig> = {
   click: { volume: 0.5 },
   'crt-on': { volume: 0.7 },
   keypress: { volume: 0.3 },
-  rain: { volume: 0.4, loop: true },
+  rain: { volume: 0.25, loop: true },
   startup: { volume: 0.7 },
+  'desktop-ambient': { volume: 0.3, loop: true },
+  error: { volume: 0.8 },
 }
 
 const cache = new Map<SoundName, HowlType>()
@@ -53,6 +63,14 @@ export function playSound(name: SoundName): void {
 export function stopSound(name: SoundName): void {
   try {
     load(name)?.stop()
+  } catch {
+    // sound file not yet available
+  }
+}
+
+export function pauseSound(name: SoundName): void {
+  try {
+    load(name)?.pause()
   } catch {
     // sound file not yet available
   }

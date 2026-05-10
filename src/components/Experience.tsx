@@ -1,7 +1,8 @@
 'use client'
 
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { useStore } from '@/lib/store'
+import { playSound, stopSound } from '@/lib/sounds'
 import LoadingScreen from '@/components/ui/LoadingScreen'
 import RoomScene from '@/components/room/RoomScene'
 
@@ -24,8 +25,20 @@ const ROOM_PHASES = new Set([
   'switching-in',
 ])
 
+// Rain plays while the room is visible. Stops as soon as the camera dives
+// into the screen ('zooming-final') so the boot sequence lands in silence.
+const RAIN_PHASES = new Set(['room', 'zooming', 'login'])
+
 export default function Experience() {
   const phase = useStore((s) => s.phase)
+
+  useEffect(() => {
+    if (RAIN_PHASES.has(phase)) {
+      playSound('rain')
+    } else {
+      stopSound('rain')
+    }
+  }, [phase])
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
